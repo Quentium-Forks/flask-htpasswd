@@ -108,13 +108,15 @@ It can then be used by the user by adding it to the header of their requests, so
 Release Notes
 =============
 
+0.5.0
+`````
+
+- Switch from itsdangerous to pyjwt
+
 0.4.0
 `````
 
 - Updated for newer language and Flask versions
-
-`````
-
 - Corrected deprecated passlib API call
 
 0.3.0
