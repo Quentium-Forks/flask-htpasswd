@@ -20,7 +20,9 @@ class HtPasswdAuth:
     """Configure htpasswd based basic and token authentication."""
 
     def __init__(self, app=None):
-        """Boiler plate extension init with log_level being declared"""
+        """
+        Boiler plate extension init with log_level being declared
+        """
         self.users = HtpasswdFile()
         self.app = app
         if app is not None:
@@ -49,8 +51,10 @@ class HtPasswdAuth:
         # Allow requiring auth for entire app, with pre request method
         @app.before_request
         def require_auth():
+            """
+            Pre request processing for enabling full app authentication.
+            """
             # pylint: disable=unused-variable
-            """Pre request processing for enabling full app authentication."""
             if not current_app.config['FLASK_AUTH_ALL']:
                 return None
             is_valid, user = self.authenticate()
@@ -64,15 +68,16 @@ class HtPasswdAuth:
 
         Args:
             app (flask.Flask): Flask application to load users from.
-
-        Raises:
-            IOError: If the configured htpasswd file does not exist.
-        Returns:
-            None
         """
         self.users = HtpasswdFile(
             app.config['FLASK_HTPASSWD_PATH']
         )
+
+    def refresh_htpasswd_file(self):
+        """
+        Refresh the htpasswd file with the current users.
+        """
+        self.load_users(self.app)
 
     def check_basic_auth(self, username, password):
         """
@@ -161,8 +166,6 @@ class HtPasswdAuth:
 
     def authenticate(self):
         """Authenticate user by any means and return either true or false.
-
-        Args:
 
         Returns:
             tuple (is_valid, username): True is valid user, False if not
